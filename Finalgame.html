@@ -1,0 +1,150 @@
+<!-- with counting scores of win loss and draws in the game  -->
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Stone,Paper,Scissorsr</title>
+    <link rel="stylesheet" href="finalgame.css">
+    
+  </head>
+
+  <body>
+    <div id="container">
+      <h1>Welcome</h1>
+      <br />
+
+      <div id="Heading">
+        <h1>Stone, Paper, Scissorsr - Game</h1>
+        <br>
+      </div>
+
+    <button class="choice-button" onclick="
+    
+    let computerChoice = generatecompchoice();
+    let result = getResult('Stone🪨',computerChoice); 
+    showResult('Stone🪨',computerChoice,result);
+    "><img src="/JS/FinalSPSgame/images_game/rock.png" alt="Stone-Image" class="choice-image" ></button>
+
+    <button class="choice-button" onclick=" 
+    
+    computerChoice = generatecompchoice();
+    result = getResult('Paper📃',computerChoice);
+    showResult('Paper📃',computerChoice,result);
+    "><img src="/JS/FinalSPSgame/images_game/paper.png" alt="Paprt-Image" class="choice-image" ></button>
+
+    <button class="choice-button" onclick="
+    
+    computerChoice = generatecompchoice(); 
+    result = getResult('Scissor✂️',computerChoice);
+    showResult('Scissor✂️',computerChoice,result);
+    "><img src="/JS/FinalSPSgame/images_game/scissors.png" alt="Scissorsr-Image" class="choice-image" ></button>
+    
+
+    
+  <div class="masg-show">
+  <h3 class="extra" id="userMove"></h3>
+  <h3 class="extra" id="compMove"></h3>
+  <h3 class="extra" id="result"></h3>
+  <h3 class="extra" id="score"></h3>
+  </div>
+
+  <button class="clear-button" onclick="localStorage.clear()
+       resetScore();
+     ">Reset</button>
+
+<h2>by Dhyey Fultariya</h2>
+
+    <script>
+      
+      let scoreStr = localStorage.getItem('Score');
+      let score;
+      resetScore(scoreStr);
+
+      function resetScore(scoreStr){
+        score = scoreStr ?  JSON.parse(scoreStr) : {
+        Win :0,
+        Lost : 0,
+        Draw : 0,
+        };
+
+        score.displayScore = function(){
+          return ` Score: Won: ${score.Win} - Loss: ${score.Lost} - Drawn: ${score.Draw}`;
+        };
+
+        showResult();
+      }
+
+    
+    </script>
+
+    <script>
+      function generatecompchoice() {
+        
+        let randomNumber = Math.random() * 3;
+        if (randomNumber <= 1) {
+          computerChoice = "Stone🪨";
+        } else if (randomNumber <= 2) {
+          computerChoice = "Paper📃";
+        } else {
+          computerChoice = "Scissor✂️";
+        }
+        return computerChoice;
+      }
+
+      function getResult(userMove, compMove) {
+        if (userMove === "Stone🪨") {
+          if (compMove === "Scissor✂️") {
+            score.Win++;
+            return "You are Won!🏆";
+          } else if (compMove === "Stone🪨") {
+            score.Draw++;
+            return "It is a Draw😒";
+          } else if (compMove === "Paper📃") {
+            score.Lost++;
+            return "You are Lost!😢";
+          }
+        } 
+        else if (userMove === "Paper📃") {
+          if (compMove === "Scissor✂️") {
+            score.Lost++;
+            return "You are Lost!😢";
+          } else if (compMove === "Stone🪨") {
+            score.Win++;
+            return "You are Won!🏆";
+          } else if (compMove === "Paper📃") {
+            score.Draw++;
+            return "It is a Draw😒";
+          }
+        } 
+        else {
+          if (compMove === "Scissor✂️") {
+            score.Draw++;
+            return "It is a Draw😒";
+          } else if (compMove === "Stone🪨") {
+            score.Lost++;
+            return "You are Lost!😢";
+          } else if (compMove === "Paper📃") {
+            score.Win++;
+            return "You are Won!🏆";
+          }
+        }
+      }
+
+      function showResult(userMove,compMove,result){
+
+        localStorage.setItem('Score',JSON.stringify(score));
+
+        document.querySelector('#userMove').innerText = userMove !== undefined ? `You have chosen ${userMove}`: '';
+
+        document.querySelector('#compMove').innerText = compMove ? `Computer Chose ${compMove}`: '';
+
+        document.querySelector('#result').innerText = result || '';
+
+        document.querySelector('#score').innerText = score.displayScore();
+
+        
+      }
+
+    </script>
+  </body>
+</html>
